@@ -54,7 +54,7 @@ def go(args):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Basic cleaning")
-    parser.add_file_argument("--input_artifact", type=str, required=True)
+    parser.add_argument("--input_artifact", type=str, required=True)
     parser.add_argument("--output_artifact", type=str, required=True)
     parser.add_argument("--output_type", type=str, required=True)
     parser.add_argument("--output_description", type=str, required=True)
