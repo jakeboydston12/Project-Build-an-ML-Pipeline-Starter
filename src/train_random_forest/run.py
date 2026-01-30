@@ -73,19 +73,9 @@ def go(args):
 
     ######################################
     # Fit the pipeline sk_pipe by calling the .fit method on X_train and y_train
-    # Build the full pipeline
-    sk_pipe = Pipeline(steps=[
-        ('preprocessor', preprocessor),
-        ('rf', RandomForestRegressor(
-            n_estimators=args.rf_n_estimators,
-            max_depth=args.rf_max_depth,
-            random_state=args.random_seed,
-            n_jobs=-1 # Use all cores for speed
-        ))
-    ])
+
 
     # Fit the pipeline
-    logger.info("Fitting model...")
     sk_pipe.fit(X_train, y_train)
     ######################################
 
@@ -108,10 +98,12 @@ def go(args):
     ######################################
     # Save the sk_pipe pipeline as a mlflow.sklearn model in the directory "random_forest_dir"
     # HINT: use mlflow.sklearn.save_model
+    
     mlflow.sklearn.save_model(
         sk_model=sk_pipe,
-        path=export_path,
-        serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE
+        path="random_forest_dir",
+        serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE,
+        input_example=X_train.iloc[:5]
     )
     ######################################
 
@@ -240,8 +232,8 @@ def get_inference_pipeline(rf_config, max_tfidf_features):
 
     sk_pipe = Pipeline(
         steps =[
-        ("preprocessor", preprocessor),
-        ("random_forest", random_forest)
+            ("preprocessor", preprocessor),
+            ("random_forest", random_forest)
         ]
     )
 
